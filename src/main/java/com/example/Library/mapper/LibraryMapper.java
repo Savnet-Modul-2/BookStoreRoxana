@@ -13,7 +13,6 @@ public class LibraryMapper {
         }
 
         Library library = new Library();
-        library.setId(libraryDto.getId());
         library.setName(libraryDto.getName());
         library.setAddress(libraryDto.getAddress());
         library.setPhoneNumber(libraryDto.getPhoneNumber());

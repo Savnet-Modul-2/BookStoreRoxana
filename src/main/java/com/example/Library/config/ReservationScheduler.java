@@ -20,8 +20,8 @@ public class ReservationScheduler {
     @Autowired
     private EmailService emailService;
 
-    @Scheduled(cron = "0 0 10 * * *")
-    public void canceledExpiredPendingReservations() {
+    @Scheduled(cron = "* * 10 * * *")
+    public void cancelExpiredPendingReservations() {
         LocalDate yesterday = LocalDate.now().minusDays(1);
         List<Reservation> expiredReservations = reservationRepository
                 .findByStatusReservationAndStartDate(StatusReservation.PENDING, yesterday)
@@ -34,17 +34,14 @@ public class ReservationScheduler {
         reservationRepository.saveAll(expiredReservations);
     }
 
-    @Scheduled(cron = "0 0 10 * * *")
+    @Scheduled(cron = "* * 10 * * *")
     public void markDelayedReservations() {
         LocalDate yesterday = LocalDate.now().minusDays(1);
 
         List<Reservation> expiredReservations = reservationRepository
                 .findByStatusReservationAndEndDate(StatusReservation.IN_PROGRESS, yesterday)
                 .stream()
-                .map(reservation -> {
-                    reservation.setStatusReservation(StatusReservation.DELAYED);
-                    return reservation;
-                })
+                .peek(reservation -> reservation.setStatusReservation(StatusReservation.DELAYED))
                 .toList();
 
         reservationRepository.saveAll(expiredReservations);

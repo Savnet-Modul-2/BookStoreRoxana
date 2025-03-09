@@ -11,7 +11,6 @@ public class LibrarianMapper {
         }
 
         Librarian librarian = new Librarian();
-        librarian.setId(librarianDto.getId());
         librarian.setName(librarianDto.getName());
         librarian.setEmail(librarianDto.getEmail());
         librarian.setPassword(librarianDto.getPassword());

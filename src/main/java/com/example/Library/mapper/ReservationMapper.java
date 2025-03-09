@@ -3,6 +3,8 @@ package com.example.Library.mapper;
 import com.example.Library.dto.ReservationDto;
 import com.example.Library.entities.Reservation;
 
+import java.util.List;
+
 public class ReservationMapper {
     public static Reservation toEntity(ReservationDto reservationDTO) {
         Reservation reservation = new Reservation();
@@ -21,5 +23,9 @@ public class ReservationMapper {
         reservationDTO.setExemplary(ExemplaryMapper.toDto(reservation.getExemplary()));
         reservationDTO.setUser(UserMapper.toDto(reservation.getUser()));
         return reservationDTO;
+    }
+
+    public static List<ReservationDto> toDtoList(List<Reservation> reservations) {
+        return reservations.stream().map(ReservationMapper::toDto).toList();
     }
 }

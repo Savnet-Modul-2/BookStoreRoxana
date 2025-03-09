@@ -9,7 +9,6 @@ import java.util.stream.Collectors;
 public class ExemplaryMapper {
     public static Exemplary toEntity(ExemplaryDto exemplaryDto) {
         Exemplary exemplary = new Exemplary();
-        exemplary.setId(exemplaryDto.getId());
         exemplary.setPublisher(exemplaryDto.getPublisher());
         exemplary.setMaxReservationDays(exemplaryDto.getMaxReservationDays());
         return exemplary;
@@ -23,7 +22,7 @@ public class ExemplaryMapper {
         return exemplaryDto;
     }
 
-    public static List<ExemplaryDto> toDtoList(List<Exemplary> exemplaries) {
-        return exemplaries.stream().map(ExemplaryMapper::toDto).collect(Collectors.toList());
+    public static List<ExemplaryDto> toDtoList(List<Exemplary> exemplars) {
+        return exemplars.stream().map(ExemplaryMapper::toDto).toList();
     }
 }

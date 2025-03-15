@@ -1,6 +1,7 @@
 package com.example.Library.controller;
 
 import com.example.Library.dto.BookDto;
+import com.example.Library.dto.validation.ValidationOrder;
 import com.example.Library.entities.Book;
 import com.example.Library.mapper.BookMapper;
 import com.example.Library.service.BookService;
@@ -8,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,7 +21,8 @@ public class BookController {
     private BookService bookService;
 
     @PostMapping("/{libraryId}")
-    public ResponseEntity<?> createBook(@RequestBody BookDto bookDto, @PathVariable Long libraryId) {
+    public ResponseEntity<?> createBook(@RequestBody @Validated(ValidationOrder.class) BookDto bookDto,
+                                        @PathVariable Long libraryId) {
         Book bookToEntity = BookMapper.toEntity(bookDto);
         Book createdBook = bookService.create(bookToEntity, libraryId);
         BookDto createdBookToDto = BookMapper.toDto(createdBook);
@@ -62,7 +65,8 @@ public class BookController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> updateBook(@RequestBody BookDto bookDto, @PathVariable Long id) {
+    public ResponseEntity<?> updateBook(@RequestBody @Validated(ValidationOrder.class) BookDto bookDto,
+                                        @PathVariable Long id) {
         Book bookEntity = BookMapper.toEntity(bookDto);
         Book updatedBook = bookService.update(bookEntity, id);
         BookDto updatedBookDTO = BookMapper.toDto(updatedBook);

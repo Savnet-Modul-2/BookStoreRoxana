@@ -19,11 +19,12 @@ public class ReservationSearchDto {
     @NotNull(groups = BasicValidation.class)
     @DateNotInThePast(groups = AdvancedValidation.class)
     private LocalDate startDate;
+
     @NotNull(groups = BasicValidation.class)
     @DateNotInThePast(groups = AdvancedValidation.class)
     private LocalDate endDate;
+
     private Integer page;
     private Integer size;
     private List<StatusReservation> statuses;
-
 }

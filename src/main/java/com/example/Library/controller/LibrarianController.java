@@ -1,11 +1,14 @@
 package com.example.Library.controller;
 
 import com.example.Library.dto.LibrarianDto;
+import com.example.Library.dto.validation.LoginValidation;
+import com.example.Library.dto.validation.ValidationOrder;
 import com.example.Library.entities.Librarian;
 import com.example.Library.mapper.LibrarianMapper;
 import com.example.Library.service.LibrarianService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,7 +20,7 @@ public class LibrarianController {
     private LibrarianService librarianService;
 
     @PostMapping
-    public ResponseEntity<?> register(@RequestBody LibrarianDto librarianDto) {
+    public ResponseEntity<?> register(@RequestBody @Validated(ValidationOrder.class) LibrarianDto librarianDto) {
         Librarian librarian = LibrarianMapper.toEntity(librarianDto);
         Librarian createdLibrarian = librarianService.create(librarian);
         LibrarianDto createdLibrarianDto = LibrarianMapper.toDto(createdLibrarian);
@@ -40,7 +43,8 @@ public class LibrarianController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> updateLibrarian(@RequestBody LibrarianDto librarianDto, @PathVariable Long id) {
+    public ResponseEntity<?> updateLibrarian(@RequestBody @Validated(ValidationOrder.class) LibrarianDto librarianDto,
+                                             @PathVariable Long id) {
         Librarian librarianEntity = LibrarianMapper.toEntity(librarianDto);
         Librarian librarianUpdate = librarianService.update(librarianEntity, id);
         LibrarianDto updatedLibrarianDTO = LibrarianMapper.toDto(librarianUpdate);
@@ -61,7 +65,7 @@ public class LibrarianController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody LibrarianDto librarianDto) {
+    public ResponseEntity<?> login(@RequestBody @Validated(LoginValidation.class) LibrarianDto librarianDto) {
         Librarian librarianToLogin = LibrarianMapper.toEntity(librarianDto);
         Librarian librarian = librarianService.login(librarianToLogin.getEmail(), librarianToLogin.getPassword());
         return ResponseEntity.ok(LibrarianMapper.toDto(librarian));

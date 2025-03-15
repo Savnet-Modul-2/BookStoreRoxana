@@ -16,12 +16,15 @@ import java.time.LocalDate;
 @ValidDate(groups = AdvancedValidation.class)
 public class ReservationDto {
     private Long id;
+
     @NotNull(groups = BasicValidation.class)
     @DateNotInThePast(groups = AdvancedValidation.class)
     private LocalDate startDate;
+
     @NotNull(groups = BasicValidation.class)
     @DateNotInThePast(groups = AdvancedValidation.class)
     private LocalDate endDate;
+
     private StatusReservation statusReservation;
     private UserDto user;
     private ExemplaryDto exemplary;

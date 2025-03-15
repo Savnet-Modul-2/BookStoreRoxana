@@ -21,8 +21,7 @@ public class ReservationController {
     @PostMapping("/{userId}/{bookId}")
     public ResponseEntity<?> create(@PathVariable Long userId,
                                     @PathVariable Long bookId,
-                                    @Validated(ValidationOrder.class)
-                                    @RequestBody ReservationDto reservationDTO) {
+                                    @RequestBody @Validated(ValidationOrder.class) ReservationDto reservationDTO) {
         Reservation reservationToCreate = ReservationMapper.toEntity(reservationDTO);
         Reservation createdReservation = reservationService.create(reservationToCreate, userId, bookId);
         return ResponseEntity.ok(ReservationMapper.toDto(createdReservation));

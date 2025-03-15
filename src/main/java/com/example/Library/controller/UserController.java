@@ -1,11 +1,14 @@
 package com.example.Library.controller;
 
 import com.example.Library.dto.UserDto;
+import com.example.Library.dto.validation.LoginValidation;
+import com.example.Library.dto.validation.ValidationOrder;
 import com.example.Library.entities.User;
 import com.example.Library.mapper.UserMapper;
 import com.example.Library.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,7 +20,7 @@ public class UserController {
     private UserService userService;
 
     @PostMapping
-    public ResponseEntity<?> create(@RequestBody UserDto userDto) {
+    public ResponseEntity<?> create(@RequestBody @Validated(ValidationOrder.class) UserDto userDto) {
         User userEntity = UserMapper.toEntity(userDto);
         User createdUser = userService.create(userEntity);
         UserDto createdUserDTO = UserMapper.toDto(createdUser);
@@ -39,7 +42,8 @@ public class UserController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> updateUser(@RequestBody UserDto userDTO, @PathVariable Long id) {
+    public ResponseEntity<?> updateUser(@RequestBody @Validated(ValidationOrder.class) UserDto userDTO,
+                                        @PathVariable Long id) {
         User userEntity = UserMapper.toEntity(userDTO);
         User userUpdate = userService.update(userEntity, id);
         UserDto updatedUserDTO = UserMapper.toDto(userUpdate);
@@ -60,7 +64,7 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody UserDto userDto) {
+    public ResponseEntity<?> login(@RequestBody @Validated(LoginValidation.class) UserDto userDto) {
         User userToLogin = UserMapper.toEntity(userDto);
         User user = userService.login(userToLogin.getEmail(), userToLogin.getPassword());
         return ResponseEntity.ok(UserMapper.toDto(user));
